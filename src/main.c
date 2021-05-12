@@ -44,6 +44,18 @@ int main(int argc, char** argv) {
         return 1;
     }
 
+    char line[1024];
+    while (fgets(line, sizeof(line), in) != NULL) {
+        debug("reading line: %s\n", line);
+    }
+
+    if (ferror(in)) {
+        perror(name);
+        fclose(in);
+        free(output);
+        return 1;
+    }
+
     fclose(in);
     free(output);
     return 0;
