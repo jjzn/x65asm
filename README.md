@@ -34,12 +34,12 @@ make && make install
 First, assemble the 6502 code:
 
 ```
-./x65asm example.s -o example.img
+./x65asm example.s
 ```
 
-After that, you can flash the resulting image onto a USB stick or a
-similar medium and boot it. It may be easyer, however, to just run it
-inside an emulator like QEMU:
+This will create a bootable disk image called `expample.img`, which you
+can flash onto a USB stick or a similar medium and boot. It may be
+easier, however, to just run it inside an emulator like QEMU:
 
 ```
 qemu-system-x86 example.img
