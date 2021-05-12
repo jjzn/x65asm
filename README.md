@@ -6,14 +6,14 @@ assembler code and produces standalone x86 binaries.
 ## Features
 
 - Should run on any x86-based platform
-- Few dependencies (plain old `make` and a C compiler)
+- Has few dependencies (only needs plain old `make` and a C compiler)
 - Assembled binaries run in "real mode" for better 6502 compatibility
 - Assembled binaries can be flashed onto external storage and booted from,
 or can be run inside an emulator
 
 ## Installation
 
-NOTE: x86asm requires a compiler conforming to the C99 standard, however,
+**NOTE:** x86asm requires a compiler conforming to the C99 standard, however,
 support for VLAs is not required.
 
 ```
