@@ -7,4 +7,13 @@
     #define debug(...)
 #endif /* DEBUG */
 
+/* syntax: [label:] pseudp-op|op [operand] */
+
+typedef struct {
+    char* label; /* may be NULL */
+    enum { PSEUDO, OP } type;
+    char* op;
+    char* arg;
+} line_t;
+
 #endif /* __defs_h */

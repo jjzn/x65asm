@@ -44,7 +44,6 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-
     fclose(in);
     free(output);
     return 0;
