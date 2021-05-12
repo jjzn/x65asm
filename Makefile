@@ -18,7 +18,7 @@ clean:
 
 remake: clean all
 
-debug: CFLAGS += -g
+debug: CFLAGS += -g -DDEBUG
 debug: remake
 
 install: all

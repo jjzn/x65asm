@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "defs.h"
+
 static char* replace_suffix(const char* str, const char* suff) {
     char* dot = strrchr(str, '.');
 
@@ -33,7 +35,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    printf("assembling %s --> %s\n", name, out);
+    debug("assembling %s --> %s\n", name, out);
 
     free(out);
     return 0;
