@@ -19,7 +19,7 @@ clean:
 remake: clean all
 
 debug: CFLAGS += -g
-debug: all
+debug: remake
 
 install: all
 	install x86asm ~/.local/bin/
