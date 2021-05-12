@@ -11,7 +11,7 @@
 
 typedef struct {
     char* label; /* may be NULL */
-    enum { PSEUDO, OP } type;
+    enum { PSEUDO, INST } type;
     char* op;
     char* arg;
 } line_t;
