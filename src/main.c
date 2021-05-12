@@ -44,9 +44,9 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    char line[1024];
-    while (fgets(line, sizeof(line), in) != NULL) {
-        debug("reading line: %s\n", line);
+    char buff[1024];
+    while (fgets(line, sizeof(buff), in) != NULL) {
+        debug("reading line: %s\n", buff);
     }
 
     if (ferror(in)) {
