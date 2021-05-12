@@ -45,6 +45,16 @@ inside an emulator like QEMU:
 qemu-system-x86 example.img
 ```
 
+## Roadmap
+
+Some features or ideas I would like to implement in the future:
+
+[] More and better documentation
+[] AFL/AFL++ input fuzzing and unit testing
+[] Automated pre-commit linting
+[] LLVM-based codegen (with a compile-time flag to switch between LLVM
+and native backends?)
+
 ## License
 
 This project is licensed under the [GPL v3.0](https://choosealicense.com/licenses/gpl-3.0/).
