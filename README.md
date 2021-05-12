@@ -37,7 +37,7 @@ First, assemble the 6502 code:
 ./x65asm example.s
 ```
 
-This will create a bootable disk image called `expample.img`, which you
+This will create a bootable disk image called `example.img`, which you
 can flash onto a USB stick or a similar medium and boot. It may be
 easier, however, to just run it inside an emulator like QEMU:
 
