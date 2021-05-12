@@ -47,6 +47,9 @@ int main(int argc, char** argv) {
     char buff[1024];
     while (fgets(line, sizeof(buff), in) != NULL) {
         debug("reading line: %s\n", buff);
+
+        line_t line = parse(buff);
+        debug(line.type == PSEUDO ? "got pseudo-op" : "got instruction");
     }
 
     if (ferror(in)) {
