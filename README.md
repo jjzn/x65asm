@@ -1,6 +1,6 @@
 # x65asm
 
-x86asm is a fairly simple two-pass cross-assembler. It takes MOS 6502
+x65asm is a fairly simple two-pass cross-assembler. It takes MOS 6502
 assembler code and produces standalone x86 binaries.
 
 ## Features
@@ -13,7 +13,7 @@ or can be run inside an emulator
 
 ## Installation
 
-**NOTE:** x86asm requires a compiler conforming to the C99 standard, however,
+**NOTE:** x65asm requires a compiler conforming to the C99 standard, however,
 support for VLAs is not required.
 
 ```
