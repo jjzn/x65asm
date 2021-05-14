@@ -47,7 +47,7 @@ int main(int argc, char** argv) {
     }
 
     char buff[1024];
-    while (fgets(line, sizeof(buff), in) != NULL) {
+    while (fgets(buff, sizeof(buff), in) != NULL) {
         debug("reading line: %s\n", buff);
 
         line_t line = parse(buff);
