@@ -49,7 +49,7 @@ int main(int argc, char** argv) {
         debug("reading line: %s\n", buff);
 
         line_t line = parse(buff);
-        debug(line.type == PSEUDO ? "got pseudo-op" : "got instruction");
+        debug(line.type == PSEUDO ? "got pseudo-op\n" : "got instruction\n");
     }
 
     if (ferror(in)) {
