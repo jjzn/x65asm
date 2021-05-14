@@ -2,7 +2,9 @@
 #define __defs_h
 
 #ifdef DEBUG
-    #define debug(...) fprintf(stderr, "DEBUG: " __VA_ARGS__)
+    #define debug(...) do { \
+        fputs("DEBUG: ", stderr); fprintf(stderr, __VA_ARGS__); \
+    } while(0)
 #else
     #define debug(...)
 #endif /* DEBUG */
