@@ -8,10 +8,10 @@ CFLAGS = -Wall -Wextra -Wpedantic -Werror -std=c99
 all: x65asm
 
 x65asm: $(OBJ)
-	$(CC) -o $@ $<
+	$(CC) -o $@ $^
 
 $(OBJ): %.o: %.c
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -c -o $@ $^ $(CFLAGS)
 
 clean:
 	rm -f x65asm src/*.o
