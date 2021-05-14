@@ -18,4 +18,6 @@ typedef struct {
     char* arg;
 } line_t;
 
+extern line_t parse(char*);
+
 #endif /* __defs_h */

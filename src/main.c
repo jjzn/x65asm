@@ -4,8 +4,6 @@
 
 #include "defs.h"
 
-extern line_t parse(char*);
-
 static char* replace_suffix(const char* str, const char* suff) {
     char* dot = strrchr(str, '.');
 
