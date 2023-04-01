@@ -11,9 +11,13 @@
 
 /* syntax: [label:] pseudp-op|op [operand] */
 
+typedef enum {
+	PSEUDO, INST
+} line_type_t;
+
 typedef struct {
     char* label; /* may be NULL */
-    enum { PSEUDO, INST } type;
+    line_type_t type;
     char* op;
     char* arg;
 } line_t;
