@@ -45,6 +45,8 @@ easier, however, to just run it inside an emulator like QEMU:
 qemu-system-x86 example.img
 ```
 
+For a full reference on the x65asm assembly language, see [docs/language.md](docs/language.md).
+
 ## Roadmap
 
 Some features or ideas I would like to implement in the future:
