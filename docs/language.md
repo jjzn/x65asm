@@ -4,7 +4,19 @@ The assembly language x65asm understands is a fairly simple one. A program consi
 
 An instruction consists of an operation, which is either a 6502 assembly mnemonic or a pseudo-op (which starts with a period `.`); followed by an optional argument.
 
-In Backus-Naur form (BNF):
+Arguments can be one of the following:
+ - Accumulator: `A`
+ - Immediate: `#value` between 0x0 and 0xFF
+ - Zero page: `value` between 0x0 and 0xFF
+ - Absolute: `value` between 0x0 and 0xFFFF
+ - Indexed: `value,X` or `value,Y`
+ - Indirect: `(value)`
+ - Indexed indirect: `(value,X)`
+ - Indirect indexed: `(value),Y`
+
+## BNF grammar
+
+A valid program can be expressed in Backus-Naur form (BNF):
 ```
 program := { line }
 line := [label] [instruction]
