@@ -1,6 +1,8 @@
 #ifndef __defs_h
 #define __defs_h
 
+#include <stdint.h>
+
 #ifdef DEBUG
     #define debug(...) do { \
         fputs("DEBUG: ", stderr); fprintf(stderr, __VA_ARGS__); \
@@ -15,7 +17,7 @@
     exit(1); \
 } while(0)
 
-/* syntax: [label:] pseudp-op|op [operand] */
+#define MAX_BYTES_PER_INST 4
 
 typedef enum {
 	PSEUDO, INST
@@ -28,6 +30,17 @@ typedef struct {
     char* arg;
 } line_t;
 
+typedef enum {
+    LABEL, CODE
+} emit_type_t;
+
+typedef struct {
+    emit_type_t type;
+    size_t len;
+    uint8_t value[MAX_BYTES_PER_INST];
+} emit_t;
+
 extern line_t parse(char*);
+extern emit_t emit(line_t);
 
 #endif /* __defs_h */
