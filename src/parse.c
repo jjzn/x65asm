@@ -21,7 +21,7 @@ line_t parse(char* buff) {
 
     line_type_t type = -1;
 
-    char* tk = strtok(buff, " \t");
+    char* tk = strtok(buff, " \t\n");
     while (tk != NULL) {
         size_t len = strlen(tk);
         if (tk[len - 1] == ':') {
@@ -42,15 +42,9 @@ line_t parse(char* buff) {
                 type = PSEUDO;
             else
                 debug("parse: error: too many pseudo-ops in this line\n"); /* TODO: should be a panic */
+        }
 
-        } else if (op == NULL)
-            op = tk;
-        else if (arg == NULL)
-            arg = tk;
-        else
-            debug("parse: error: too many arguments in this line\n"); /* TODO: should be a panic */
-
-        tk = strtok(NULL, " \t");
+        tk = strtok(NULL, " \t\n");
     }
 
     return (line_t) { label, type, op, arg };
