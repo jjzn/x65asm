@@ -9,6 +9,12 @@
     #define debug(...)
 #endif /* DEBUG */
 
+#define panic(...) do { \
+    fprintf(stderr, "fatal: %s: ", __func__); \
+    fprintf(stderr, __VA_ARGS__); \
+    exit(1); \
+} while(0)
+
 /* syntax: [label:] pseudp-op|op [operand] */
 
 typedef enum {

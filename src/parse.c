@@ -9,15 +9,15 @@ line_t parse(char* buff) {
 
     char* label = calloc(1024, sizeof(char));
     if (label == NULL)
-        debug("parse: error: could not allocate memory\n"); /* TODO: should be a panic */
+        panic("could not allocate memory\n");
 
     char* op = calloc(1024, sizeof(char));
     if (op == NULL)
-        debug("parse: error: could not allocate memory\n"); /* TODO: should be a panic */
+        panic("could not allocate memory\n");
 
     char* arg = calloc(1024, sizeof(char));
     if (arg == NULL)
-        debug("parse: error: could not allocate memory\n"); /* TODO: should be a panic */
+        panic("could not allocate memory\n");
 
     line_type_t type = -1;
 
