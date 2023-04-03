@@ -2,6 +2,7 @@
 #define __defs_h
 
 #include <stdint.h>
+#include "maybe.h"
 
 #ifdef DEBUG
     #define debug(...) do { \
@@ -40,7 +41,9 @@ typedef struct {
     uint8_t value[MAX_BYTES_PER_INST];
 } emit_t;
 
+make_maybe(emit_t);
+
 extern line_t parse(char*);
-extern emit_t emit(line_t);
+extern maybe(emit_t) emit(line_t);
 
 #endif /* __defs_h */
