@@ -3,12 +3,14 @@
 
 #include "defs.h"
 #include "maybe.h"
+#include "encoding.h"
 
 typedef emit_t (*emitter)(line_t);
 
 emit_t emit_lda(line_t line) {
-    if (line.type) {} /* stop compiler complaints */
-    return (emit_t) { CODE, 0, {0} };
+    uint8_t bin[] = { 0x8B, REG_AL };
+
+    return (emit_t) { CODE, sizeof(bin), bin };
 }
 
 static char* inst_6502[] = {
