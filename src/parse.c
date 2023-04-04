@@ -15,9 +15,7 @@ line_t parse(char* buff) {
     if (op == NULL)
         panic("could not allocate memory\n");
 
-    char* arg = calloc(1024, sizeof(char));
-    if (arg == NULL)
-        panic("could not allocate memory\n");
+    maybe(arg_t) arg = none(arg_t);
 
     line_type_t type = -1;
 
@@ -32,8 +30,8 @@ line_t parse(char* buff) {
 
         } else if (*op == '\0')
             strncpy(op, tk, 1024);
-        else if (*arg == '\0')
-            strncpy(arg, tk, 1024);
+        else if (!arg.ok)
+            arg = parse_arg(tk);
         else
             debug("parse: error: too many arguments in this line\n"); /* TODO: should be a panic */
 
@@ -47,5 +45,5 @@ line_t parse(char* buff) {
         tk = strtok(NULL, " \t\n");
     }
 
-    return (line_t) { label, type, op, arg };
+    return (line_t) { label, type, op, unwrap(arg) };
 }
