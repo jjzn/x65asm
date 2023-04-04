@@ -10,6 +10,9 @@ make_maybe(arg_t);
 maybe(arg_t) parse_arg(char* buff) {
     #define make_arg(type, value) (arg_t) {(type), {(value)}}
 
+    if (*buff == '\0')
+        return some(arg_t, make_arg(NONE, 0));
+
     if (strcmp("A", buff) == 0)
         return some(arg_t, make_arg(ACC, 0));
 

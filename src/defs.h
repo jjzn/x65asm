@@ -18,7 +18,7 @@ extern void _macro_expand_panic(const char*, char*);
 #define MAX_BYTES_PER_INST 4
 
 typedef enum {
-    ACC, IMM, ZP, ABS, IDX, IND, IDX_IND, IND_IDX
+    NONE, ACC, IMM, ZP, ABS, IDX, IND, IDX_IND, IND_IDX
 } arg_type_t;
 
 typedef struct {
