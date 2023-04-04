@@ -21,6 +21,18 @@
 #define MAX_BYTES_PER_INST 4
 
 typedef enum {
+    ACC, IMM, ZP, ABS, IDX, IND, IDX_IND, IND_IDX
+} arg_type_t;
+
+typedef struct {
+    arg_type_t type;
+    union {
+        uint8_t as_8;
+        uint16_t as_16;
+    };
+} arg_t;
+
+typedef enum {
 	PSEUDO, INST
 } line_type_t;
 
@@ -28,7 +40,7 @@ typedef struct {
     char* label; /* may be NULL */
     line_type_t type;
     char* op;
-    char* arg;
+    arg_t arg;
 } line_t;
 
 typedef enum {
