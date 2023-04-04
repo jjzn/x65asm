@@ -12,11 +12,8 @@
     #define debug(...)
 #endif /* DEBUG */
 
-#define panic(...) do { \
-    fprintf(stderr, "fatal: %s: ", __func__); \
-    fprintf(stderr, __VA_ARGS__); \
-    exit(1); \
-} while(0)
+extern void _macro_expand_panic(const char*, char*);
+#define panic(...) _macro_expand_panic(__func__, __VA_ARGS__)
 
 #define MAX_BYTES_PER_INST 4
 
