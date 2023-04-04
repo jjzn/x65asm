@@ -3,6 +3,31 @@
 #include <string.h>
 
 #include "defs.h"
+#include "maybe.h"
+
+make_maybe(arg_t);
+
+maybe(arg_t) parse_arg(char* buff) {
+    #define make_arg(type, value) (arg_t) {(type), {(value)}}
+
+    if (strcmp("A", buff) == 0)
+        return some(arg_t, make_arg(ACC, 0));
+
+    if (*buff == '#')
+        return some(arg_t, make_arg(IMM, strtoul(buff + 1, NULL, 0)));
+
+    char* rest;
+    unsigned long val = strtoul(buff, &rest, 0);
+    if (*rest == '\0') {
+        if (val <= 0xFF)
+            return some(arg_t, make_arg(ZP, (uint8_t) val));
+        else
+            return some(arg_t, make_arg(ABS, (uint16_t) val));
+    }
+    /* TODO: handle indirect/indexed arguments */
+
+    return none(arg_t);
+}
 
 line_t parse(char* buff) {
     /* TODO: add support for comments */
