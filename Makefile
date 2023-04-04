@@ -1,7 +1,7 @@
 SRC = $(wildcard src/*.c)
 OBJ = $(SRC:.c=.o)
 
-CFLAGS = -Wall -Wextra -Wpedantic -Werror -std=c99
+CFLAGS = -Wall -Wextra -Wpedantic -Werror -std=c11
 
 .PHONY = all clean remake debug install
 

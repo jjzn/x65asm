@@ -13,8 +13,10 @@ or can be run inside an emulator
 
 ## Installation
 
-**NOTE:** x65asm requires a compiler conforming to the C99 standard, however,
-support for VLAs is not required.
+**NOTE:** x65asm requires a compiler conforming to the C11 standard, however,
+support for VLAs is not required. All code conforms to the C99 standard as
+well, except for the use unnamed structs or unions, which was introduced with
+C11 (and GNU C99, previously).
 
 ```
 # clone the repo
