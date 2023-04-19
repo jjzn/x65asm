@@ -12,8 +12,8 @@
     #define debug(...)
 #endif /* DEBUG */
 
-extern void _macro_expand_panic(const char*, char*, ...);
-#define panic(...) _macro_expand_panic(__func__, __VA_ARGS__)
+extern void _macro_expand_panic(const char*, const char*, int, char*, ...);
+#define panic(...) _macro_expand_panic(__func__, __FILE__, __LINE__, __VA_ARGS__)
 
 #define MAX_BYTES_PER_INST 4
 
