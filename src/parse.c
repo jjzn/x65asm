@@ -73,5 +73,5 @@ line_t parse(char* buff) {
         tk = strtok(NULL, " \t\n");
     }
 
-    return (line_t) { label, type, op, unwrap(arg) };
+    return (line_t) { label, type, op, unwrap(arg, buff) };
 }
