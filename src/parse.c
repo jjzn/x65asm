@@ -29,7 +29,7 @@ maybe(arg_t) parse_arg(char* buff) {
     }
     /* TODO: handle indirect/indexed arguments */
 
-    return none(arg_t);
+    return some(arg_t, make_arg(NONE, 0));
 }
 
 line_t parse(char* buff) {
@@ -43,7 +43,7 @@ line_t parse(char* buff) {
     if (op == NULL)
         panic("could not allocate memory\n");
 
-    maybe(arg_t) arg = none(arg_t);
+    maybe(arg_t) arg = some(arg_t, make_arg(NONE, 0));
 
     line_type_t type = -1;
 
@@ -58,7 +58,7 @@ line_t parse(char* buff) {
 
         } else if (*op == '\0')
             strncpy(op, tk, 1024);
-        else if (!arg.ok)
+        else if (!arg.ok || arg.val.type == NONE)
             arg = parse_arg(tk);
         else
             debug("parse: error: too many arguments in this line\n"); /* TODO: should be a panic */
