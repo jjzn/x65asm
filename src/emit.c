@@ -24,12 +24,12 @@ static emitter inst_x86[] = {
 maybe(emit_t) emit(line_t line) {
     /* TODO: handle pseudo-ops somewhere */
     if (line.type == PSEUDO)
-        return (maybe(emit_t)) none();
+        return none(emit_t);
 
     for (size_t i = 0; i < sizeof(inst_6502); i++) {
         if (strcmp(inst_6502[i], line.op) == 0)
-            return (maybe(emit_t)) some(inst_x86[i](line));
+            return some(emit_t, inst_x86[i](line));
     }
 
-    return (maybe(emit_t)) none();
+    return none(emit_t);
 }
