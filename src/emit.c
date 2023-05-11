@@ -16,19 +16,15 @@
 
 typedef maybe(emit_t) (*emitter)(line_t);
 
-maybe(emit_t) emit_lda(line_t line) {
-    allow_args(line, IMM, ZP, ABS, IDX, IND, IDX_IND, IND_IDX);
-
+maybe(emit_t) _emit_load(line_t line, uint8_t reg) {
     size_t len = 0;
     uint8_t bin[MAX_BYTES_PER_INST];
-
-    debug("emitting --> '%s'\n", __func__);
 
     switch (line.arg.type) {
         case IMM:
             len = 2;
 
-            bin[0] = 0xB0 + REG_AL;
+            bin[0] = 0xB0 + reg;
             bin[1] = line.arg.as_8;
             break;
 
@@ -38,7 +34,7 @@ maybe(emit_t) emit_lda(line_t line) {
 
             /* the ModR/M byte will be 00 RRR 110, meaning a 16 bit displacement */
             bin[0] = 0x8A;
-            bin[1] = 0x06 | (REG_AL << 3);
+            bin[1] = 0x06 | (reg << 3);
             bin[2] = line.arg.as_16; /* little-endian encoding */
             bin[3] = line.arg.as_16 >> 8;
             break;
@@ -53,12 +49,33 @@ maybe(emit_t) emit_lda(line_t line) {
     return some(emit_t, res);
 }
 
+maybe(emit_t) emit_lda(line_t line) {
+    allow_args(line, IMM, ZP, ABS);
+
+    debug("emitting --> '%s'\n", __func__);
+    return _emit_load(line, REG_AL);
+}
+
+maybe(emit_t) emit_ldx(line_t line) {
+    allow_args(line, IMM, ZP, ABS);
+
+    debug("emitting --> '%s'\n", __func__);
+    return _emit_load(line, REG_BL);
+}
+
+maybe(emit_t) emit_ldy(line_t line) {
+    allow_args(line, IMM, ZP, ABS);
+
+    debug("emitting --> '%s'\n", __func__);
+    return _emit_load(line, REG_CL);
+}
+
 static char* inst_6502[] = {
-    "lda"
+    "lda", "ldx", "ldy"
 };
 
 static emitter inst_x86[] = {
-    emit_lda
+    emit_lda, emit_ldx, emit_ldy
 };
 
 maybe(emit_t) emit(line_t line) {
