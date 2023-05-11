@@ -47,8 +47,16 @@ int main(int argc, char** argv) {
     char buff[1024];
     while (fgets(buff, sizeof(buff), in) != NULL) {
         line_t line = parse(buff);
-        if (line.type == INST)
-            emit(line);
+        debug("parsed line:\t%s\t%s\t%d\n", line.label, line.op, line.arg.as_16);
+
+        if (line.type == INST) {
+            maybe(emit_t) res = emit(line);
+            if (res.ok) {
+                debug("%lu values:\n", res.val.len);
+                for (size_t i = 0; i < res.val.len; i++)
+                    debug("emit\t%x\n", res.val.value[i]);
+            }
+        }
     }
 
     if (ferror(in)) {
