@@ -17,6 +17,16 @@ extern void _macro_expand_panic(const char*, const char*, int, char*, ...);
 
 #define MAX_BYTES_PER_INST 4
 
+/* 6502 addressing modes
+ *
+ * IDX - indexed, adds the contents of the X/Y register
+ * IND - indirect, references the value stored at the pointed memory location
+ * IDX_IND - indexed indirect, as in `LDA ($20,X)`, an indirect lookup to the
+             memory at $20 + X
+ * IND_IDX - indirect indexed, as in `LDA ($20),Y`, fetches the address at the
+             specified memory location and adds the contents of Y
+ */
+
 typedef enum {
     NONE, ACC, IMM, ZP, ABS, IDX, IND, IDX_IND, IND_IDX
 } arg_type_t;
