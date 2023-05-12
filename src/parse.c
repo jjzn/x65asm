@@ -33,8 +33,6 @@ maybe(arg_t) parse_arg(char* buff) {
 }
 
 line_t parse(char* buff) {
-    /* TODO: add support for comments */
-
     char* label = calloc(1024, sizeof(char));
     if (label == NULL)
         panic("could not allocate memory\n");
@@ -49,6 +47,10 @@ line_t parse(char* buff) {
 
     char* tk = strtok(buff, " \t\n");
     while (tk != NULL) {
+        /* handle comments by immediately stopping to process the current line */
+        if (*tk == ';')
+            break;
+
         size_t len = strlen(tk);
         if (tk[len - 1] == ':') {
             if (*label == '\0')

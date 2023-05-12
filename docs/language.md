@@ -23,6 +23,10 @@ line := [label] [instruction]
 instruction := (op|pseudo-op) [argument]
 ```
 
+Any line may contain a comment, which starts with a `;` (semicolon) and extends until the end of the line. Comments are discarded and not processed by the assembler.
+
+See [`example`](./example) for some examples of 6502 assembly.
+
 ## Instructions
 
 For a complete list of all the (known) 6502 instructions and their mnemonics, see the [6502.org Opcodes](http://www.6502.org/tutorials/6502opcodes.html) site.
