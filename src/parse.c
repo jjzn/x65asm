@@ -19,15 +19,36 @@ maybe(arg_t) parse_arg(char* buff) {
     if (*buff == '#')
         return some(arg_t, make_arg(IMM, strtoul(buff + 1, NULL, 0)));
 
+    if (*buff == '(') {
+        char* rest;
+        unsigned long val = strtoul(buff + 1, &rest, 0);
+
+        if (strcmp(")", rest) == 0)
+            return some(arg_t, make_arg(IND, (uint16_t) val));
+        else if (strcmp(",X)", rest) == 0)
+            return some(arg_t, make_arg(IDX_IND, (uint16_t) val));
+        else if (strcmp("),Y", rest) == 0)
+            return some(arg_t, make_arg(IND_IDX, (uint16_t) val));
+        else
+            return none(arg_t); /* probably panic or return an error message? */
+    }
+
     char* rest;
     unsigned long val = strtoul(buff, &rest, 0);
+
     if (*rest == '\0') {
         if (val <= 0xFF)
             return some(arg_t, make_arg(ZP, (uint8_t) val));
         else
             return some(arg_t, make_arg(ABS, (uint16_t) val));
+    } else if (rest[0] == ',') {
+        if (rest[1] == 'X')
+            return some(arg_t, make_arg(IDX_X, (uint16_t) val));
+        else if (rest[1] == 'Y')
+            return some(arg_t, make_arg(IDX_Y, (uint16_t) val));
+        else
+            return none(arg_t); /* probably panic or return an error message? */
     }
-    /* TODO: handle indirect/indexed arguments */
 
     return some(arg_t, make_arg(NONE, 0));
 }
