@@ -23,10 +23,7 @@ typedef enum {
 
 typedef struct {
     arg_type_t type;
-    union {
-        uint8_t as_8;
-        uint16_t as_16;
-    };
+    uint16_t as_16;
 } arg_t;
 
 typedef enum {

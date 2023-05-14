@@ -8,7 +8,7 @@
 make_maybe(arg_t);
 
 maybe(arg_t) parse_arg(char* buff) {
-    #define make_arg(type, value) (arg_t) {(type), {(value)}}
+    #define make_arg(type, value) (arg_t) {(type), (value)}
 
     if (*buff == '\0')
         return some(arg_t, make_arg(NONE, 0));
@@ -17,7 +17,7 @@ maybe(arg_t) parse_arg(char* buff) {
         return some(arg_t, make_arg(ACC, 0));
 
     if (*buff == '#')
-        return some(arg_t, make_arg(IMM, strtoul(buff + 1, NULL, 0)));
+        return some(arg_t, make_arg(IMM, (uint16_t) strtoul(buff + 1, NULL, 0)));
 
     if (*buff == '(') {
         char* rest;
