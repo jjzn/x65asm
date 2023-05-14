@@ -116,15 +116,51 @@ maybe(emit_t) emit_sty(line_t line) {
     return _emit_store(line, REG_CL);
 }
 
+maybe(emit_t) emit_inx(line_t line) {
+    allow_args(line, NONE);
+
+    debug("emitting --> '%s'\n", __func__);
+    emit_t res = { CODE, 1, { 0x40 + REG_AL } };
+    return some(emit_t, res);
+}
+
+maybe(emit_t) emit_iny(line_t line) {
+    allow_args(line, NONE);
+
+    debug("emitting --> '%s'\n", __func__);
+    emit_t res = { CODE, 1, { 0x40 + REG_BL } };
+    return some(emit_t, res);
+}
+
+maybe(emit_t) emit_dex(line_t line) {
+    allow_args(line, NONE);
+
+    debug("emitting --> '%s'\n", __func__);
+    emit_t res = { CODE, 1, { 0x48 + REG_AL } };
+    return some(emit_t, res);
+}
+
+maybe(emit_t) emit_dey(line_t line) {
+    allow_args(line, NONE);
+
+    debug("emitting --> '%s'\n", __func__);
+    emit_t res = { CODE, 1, { 0x48 + REG_BL } };
+    return some(emit_t, res);
+}
+
 #define INST_MNEMONIC_LEN 4
 static char inst_6502[][INST_MNEMONIC_LEN] = {
     "lda", "ldx", "ldy",
-    "sta", "stx", "sty"
+    "sta", "stx", "sty",
+           "inx", "iny",
+           "dex", "dey" /* TODO: implement INC and DEC */
 };
 
 static emitter inst_x86[] = {
     emit_lda, emit_ldx, emit_ldy,
-    emit_sta, emit_stx, emit_sty
+    emit_sta, emit_stx, emit_sty,
+              emit_inx, emit_iny,
+              emit_dex, emit_dey
 };
 
 maybe(emit_t) emit(line_t line) {
@@ -133,8 +169,6 @@ maybe(emit_t) emit(line_t line) {
         return none(emit_t);
 
     for (size_t i = 0; i < sizeof(inst_6502) / INST_MNEMONIC_LEN; i++) {
-        debug("checking '%s' == '%s'\n", line.op, inst_6502[i]);
-
         if (strcmp(inst_6502[i], line.op) == 0) {
             return inst_x86[i](line);
         }
