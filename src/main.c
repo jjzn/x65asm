@@ -21,6 +21,10 @@ static char* replace_suffix(const char* str, const char* suff) {
     return ret;
 }
 
+static char* arg_names[] = {
+    "NONE", "ACC", "IMM", "ZP", "ABS", "IDX_X", "IDX_Y", "IND", "IDX_IND", "IND_IDX"
+};
+
 int main(int argc, char** argv) {
     if (argc != 2) {
         fprintf(stderr, "usage: %s file\n", argv[0]);
@@ -46,7 +50,10 @@ int main(int argc, char** argv) {
 
     char buff[1024];
     while (fgets(buff, sizeof(buff), in) != NULL) {
+        debug("%s", buff);
         line_t line = parse(buff);
+        debug("\t\t%s (= %d)\n", arg_names[line.arg.type], line.arg.as_16);
+
         if (line.type == INST)
             emit(line);
 
