@@ -49,6 +49,9 @@ int main(int argc, char** argv) {
         line_t line = parse(buff);
         if (line.type == INST)
             emit(line);
+
+        free(line.label);
+        free(line.op);
     }
 
     if (ferror(in)) {
