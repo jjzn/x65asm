@@ -56,7 +56,7 @@ maybe(emit_t) _emit_store(line_t line, uint8_t reg) {
     switch (line.arg.type) {
         case ZP:
         case ABS:
-            len = 0;
+            len = 4;
 
             bin[0] = 0x88;
             bin[1] = 0x06 | (reg << 3);
@@ -116,7 +116,8 @@ maybe(emit_t) emit_sty(line_t line) {
     return _emit_store(line, REG_CL);
 }
 
-static char* inst_6502[] = {
+#define INST_MNEMONIC_LEN 4
+static char inst_6502[][INST_MNEMONIC_LEN] = {
     "lda", "ldx", "ldy",
     "sta", "stx", "sty"
 };
@@ -131,8 +132,8 @@ maybe(emit_t) emit(line_t line) {
     if (line.type == PSEUDO)
         return none(emit_t);
 
-    for (size_t i = 0; i < sizeof(inst_6502); i++) {
-        debug("emitting for %s\n", line.op);
+    for (size_t i = 0; i < sizeof(inst_6502) / INST_MNEMONIC_LEN; i++) {
+        debug("checking '%s' == '%s'\n", line.op, inst_6502[i]);
 
         if (strcmp(inst_6502[i], line.op) == 0) {
             return inst_x86[i](line);
