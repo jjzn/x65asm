@@ -77,20 +77,20 @@ line_t parse(char* buff) {
             if (*label == '\0')
                 strncpy(label, tk, 1024);
             else
-                debug("parse: error: too many labels in this line\n"); /* TODO: should be a panic */
+                panic("too many labels in this line\n");
 
         } else if (*op == '\0')
             strncpy(op, tk, 1024);
         else if (!arg.ok || arg.val.type == NONE)
             arg = parse_arg(tk);
         else
-            debug("parse: error: too many arguments in this line\n"); /* TODO: should be a panic */
+            panic("too many arguments in this line\n");
 
         if (*tk == '.') {
             if (type == (line_type_t) -1)
                 type = PSEUDO;
             else
-                debug("parse: error: too many pseudo-ops in this line\n"); /* TODO: should be a panic */
+                panic("too many pseudo-ops in this line\n");
         }
 
         tk = strtok(NULL, " \t\n");
