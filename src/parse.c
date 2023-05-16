@@ -86,12 +86,13 @@ line_t parse(char* buff) {
         else
             panic("too many arguments in this line\n");
 
-        if (*tk == '.') {
-            if (type == (line_type_t) -1)
+        if (type == (line_type_t) -1) {
+            if (*tk == '.')
                 type = PSEUDO;
             else
-                panic("too many pseudo-ops in this line\n");
-        }
+                type = INST;
+        } else if (*tk == '.')
+            panic("too many pseudo-ops in this line\n");
 
         tk = strtok(NULL, " \t\n");
     }

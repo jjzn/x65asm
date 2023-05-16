@@ -4,6 +4,9 @@
 
 #include "defs.h"
 
+#include "table.h"
+extern table_t labels;
+
 static char* replace_suffix(const char* str, const char* suff) {
     char* dot = strrchr(str, '.');
 
@@ -54,12 +57,23 @@ int main(int argc, char** argv) {
         line_t line = parse(buff);
         debug("\t\t%s (= %d)\n", arg_names[line.arg.type], line.arg.as_16);
 
-        if (line.type == INST)
-            emit(line);
+        if (line.type == INST) {
+            maybe(emit_t) res = emit(line);
+            if (res.ok) {
+                debug("%lu values:\n", res.val.len);
+                for (size_t i = 0; i < res.val.len; i++)
+                    debug("emit\t%x\n", res.val.value[i]);
+            }
+        }
 
         free(line.label);
         free(line.op);
     }
+
+    debug("\n");
+    debug("table labels\tlen = %lu\n", labels.len);
+    for (size_t i = 0; i < labels.len; i++)
+        debug("\t'%s' = %u\n", labels.keys[i], labels.vals[i]);
 
     if (ferror(in)) {
         perror(name);
