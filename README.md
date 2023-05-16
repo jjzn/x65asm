@@ -13,10 +13,10 @@ or can be run inside an emulator
 
 ## Installation
 
-**NOTE:** x65asm requires a compiler conforming to the C11 standard, however,
+**NOTE:** x65asm requires a compiler conforming to the C11 standard; however,
 support for VLAs is not required. All code conforms to the C99 standard as
-well, except for the use unnamed structs or unions, which was introduced with
-C11 (and GNU C99, previously).
+well, except for the use of unnamed structs or unions, which were introduced
+with C11 (and GNU C99, previously).
 
 ```
 # clone the repo
@@ -26,10 +26,11 @@ cd x65asm
 
 # compile and install binaries
 
-make && make install
+make install
 ```
 
-`make install` installs binaries to `~/.local/bin/` by default.
+`make install` installs binaries to `~/.local/bin/` by default. This behaviour
+can be changed by setting the `PREFIX` variable.
 
 ## Usage
 
@@ -47,7 +48,13 @@ easier, however, to just run it inside an emulator like QEMU:
 qemu-system-x86 example.img
 ```
 
-For a full reference on the x65asm assembly language, see [docs/language.md](docs/language.md).
+For a full reference on the x65asm assembly language, see [`docs/language.md`](docs/language.md).
+
+## Project status
+
+As for now, the parser is fully working, while the emitter only provides some
+boilerplate and wrapper code for emitting individual instructions. For a list
+of implemented instructions, see the `inst_6502` array in [`src/emit.c`](src/emit.c).
 
 ## Roadmap
 
