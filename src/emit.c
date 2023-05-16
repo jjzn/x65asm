@@ -4,6 +4,7 @@
 
 #include "defs.h"
 #include "maybe.h"
+#include "table.h"
 #include "encoding.h"
 
 #define allow_args(line, ...) \
@@ -15,6 +16,8 @@
         return none(emit_t);
 
 typedef maybe(emit_t) (*emitter)(line_t);
+
+table_t labels = { 0 };
 
 maybe(emit_t) _emit_load(line_t line, uint8_t reg) {
     size_t len = 0;
@@ -167,6 +170,12 @@ maybe(emit_t) emit(line_t line) {
     /* TODO: handle pseudo-ops somewhere */
     if (line.type == PSEUDO)
         return none(emit_t);
+
+    if (*line.label) {
+        uint16_t pos = 0; /* TODO: implement */
+        if (!table_set(&labels, line.label, pos))
+            debug("emit: error: could not insert label into table\n"); /* TODO: should be a panic */
+    }
 
     for (size_t i = 0; i < sizeof(inst_6502) / INST_MNEMONIC_LEN; i++) {
         if (strcmp(inst_6502[i], line.op) == 0) {
