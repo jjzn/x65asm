@@ -1,12 +1,12 @@
 #ifndef __table_h
 #define __table_h
 
-typedef struct {
-    char** keys;
-    uint16_t* vals;
+#define MAX_TABLE_SIZE 1024
 
+typedef struct {
     size_t len;
-    size_t cap;
+    char* keys[MAX_TABLE_SIZE];
+    uint16_t vals[MAX_TABLE_SIZE];
 } table_t;
 
 make_maybe(uint16_t);

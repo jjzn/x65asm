@@ -12,8 +12,10 @@ bool table_set(table_t* t, char* key, uint16_t val) {
     if (idx >= t->len) {
         idx = t->len;
         t->len++;
-        /* TODO: ensure len < cap */
     }
+
+    if (t->len >= MAX_TABLE_SIZE)
+        return false;
 
     t->keys[idx] = key;
     t->vals[idx] = val;
