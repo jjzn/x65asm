@@ -28,7 +28,7 @@ maybe(emit_t) _emit_load(line_t line, uint8_t reg) {
             len = 2;
 
             bin[0] = 0xB0 + reg;
-            bin[1] = line.arg.as_8;
+            bin[1] = (uint8_t) line.arg.as_16;
             break;
 
         case ZP:
@@ -37,9 +37,9 @@ maybe(emit_t) _emit_load(line_t line, uint8_t reg) {
 
             /* the ModR/M byte will be 00 RRR 110, meaning a 16 bit displacement */
             bin[0] = 0x8A;
-            bin[1] = 0x06 | (reg << 3);
-            bin[2] = line.arg.as_16; /* little-endian encoding */
-            bin[3] = line.arg.as_16 >> 8;
+            bin[1] = (uint8_t) (0x06 | (reg << 3));
+            bin[2] = (uint8_t) line.arg.as_16; /* little-endian encoding */
+            bin[3] = (uint8_t) (line.arg.as_16 >> 8);
             break;
 
         default:
@@ -62,9 +62,9 @@ maybe(emit_t) _emit_store(line_t line, uint8_t reg) {
             len = 4;
 
             bin[0] = 0x88;
-            bin[1] = 0x06 | (reg << 3);
-            bin[2] = line.arg.as_16; /* little-endian encoding */
-            bin[3] = line.arg.as_16 >> 8;
+            bin[1] = (uint8_t) (0x06 | (reg << 3));
+            bin[2] = (uint8_t) line.arg.as_16; /* little-endian encoding */
+            bin[3] = (uint8_t) (line.arg.as_16 >> 8);
             break;
 
         default:
