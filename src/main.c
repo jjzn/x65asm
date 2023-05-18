@@ -66,14 +66,17 @@ int main(int argc, char** argv) {
             }
         }
 
-        free(line.label);
         free(line.op);
+        if (*line.label == '\0')
+            free(line.label); /* only free if label is not included in the table */
     }
 
     debug("\n");
     debug("table labels\tlen = %lu\n", labels.len);
-    for (size_t i = 0; i < labels.len; i++)
+    for (size_t i = 0; i < labels.len; i++) {
         debug("\t'%s' = %u\n", labels.keys[i], labels.vals[i]);
+        free(labels.keys[i]); /* free remaining labels */
+    }
 
     if (ferror(in)) {
         perror(name);
