@@ -1,5 +1,6 @@
-SRC = $(wildcard src/*.c)
+SRC = $(wildcard src/*.c) $(GEN)
 OBJ = $(SRC:.c=.o)
+GEN = src/emit.c
 
 CFLAGS = -Wall -Wextra -Wpedantic -Wconversion -Wdouble-promotion -std=c11 -fsanitize=address,undefined
 LDFLAGS = -fsanitize=address,undefined
@@ -12,11 +13,14 @@ all: x65asm
 x65asm: $(OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
+$(GEN): %.c: %.c.in
+	m4 $^ > $@
+
 $(OBJ): %.o: %.c
 	$(CC) -c -o $@ $^ $(CFLAGS)
 
 clean:
-	rm -f x65asm src/*.o
+	rm -f x65asm src/*.o $(GEN)
 
 remake: clean all
 

@@ -1,3 +1,16 @@
+define(`_M_inst', `maybe(emit_t) emit_`$1'(line_t line) {')dnl
+define(`_M_mode', `
+    allow_args(line, $@);
+
+    debug("emitting --> ''%s'`\n", __func__);')dnl
+define(`_M_code', `
+    emit_t res = { CODE, $#, { $@ } };
+    return some(emit_t, res);
+}')dnl
+define(`_M_return', `
+    return $1;
+}')dnl
+dnl
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -77,79 +90,19 @@ maybe(emit_t) _emit_store(line_t line, uint8_t reg) {
     return some(emit_t, res);
 }
 
-maybe(emit_t) emit_lda(line_t line) {
-    allow_args(line, IMM, ZP, ABS);
+_M_inst(lda) _M_mode(IMM, ZP, ABS) _M_return(_emit_load(line, REG_AL))
+_M_inst(ldx) _M_mode(IMM, ZP, ABS) _M_return(_emit_load(line, REG_BL))
+_M_inst(ldy) _M_mode(IMM, ZP, ABS) _M_return(_emit_load(line, REG_CL))
 
-    debug("emitting --> '%s'\n", __func__);
-    return _emit_load(line, REG_AL);
-}
+_M_inst(sta) _M_mode(ZP, ABS) _M_return(_emit_store(line, REG_AL))
+_M_inst(stx) _M_mode(ZP, ABS) _M_return(_emit_store(line, REG_BL))
+_M_inst(sty) _M_mode(ZP, ABS) _M_return(_emit_store(line, REG_CL))
 
-maybe(emit_t) emit_ldx(line_t line) {
-    allow_args(line, IMM, ZP, ABS);
+_M_inst(inx) _M_mode(NONE) _M_code(0x40 + REG_AL)
+_M_inst(iny) _M_mode(NONE) _M_code(0x40 + REG_BL)
 
-    debug("emitting --> '%s'\n", __func__);
-    return _emit_load(line, REG_BL);
-}
-
-maybe(emit_t) emit_ldy(line_t line) {
-    allow_args(line, IMM, ZP, ABS);
-
-    debug("emitting --> '%s'\n", __func__);
-    return _emit_load(line, REG_CL);
-}
-
-maybe(emit_t) emit_sta(line_t line) {
-    allow_args(line, ZP, ABS);
-
-    debug("emitting --> '%s'\n", __func__);
-    return _emit_store(line, REG_AL);
-}
-
-maybe(emit_t) emit_stx(line_t line) {
-    allow_args(line, ZP, ABS);
-
-    debug("emitting --> '%s'\n", __func__);
-    return _emit_store(line, REG_BL);
-}
-
-maybe(emit_t) emit_sty(line_t line) {
-    allow_args(line, ZP, ABS);
-
-    debug("emitting --> '%s'\n", __func__);
-    return _emit_store(line, REG_CL);
-}
-
-maybe(emit_t) emit_inx(line_t line) {
-    allow_args(line, NONE);
-
-    debug("emitting --> '%s'\n", __func__);
-    emit_t res = { CODE, 1, { 0x40 + REG_AL } };
-    return some(emit_t, res);
-}
-
-maybe(emit_t) emit_iny(line_t line) {
-    allow_args(line, NONE);
-
-    debug("emitting --> '%s'\n", __func__);
-    emit_t res = { CODE, 1, { 0x40 + REG_BL } };
-    return some(emit_t, res);
-}
-
-maybe(emit_t) emit_dex(line_t line) {
-    allow_args(line, NONE);
-
-    debug("emitting --> '%s'\n", __func__);
-    emit_t res = { CODE, 1, { 0x48 + REG_AL } };
-    return some(emit_t, res);
-}
-
-maybe(emit_t) emit_dey(line_t line) {
-    allow_args(line, NONE);
-
-    debug("emitting --> '%s'\n", __func__);
-    emit_t res = { CODE, 1, { 0x48 + REG_BL } };
-    return some(emit_t, res);
-}
+_M_inst(dex) _M_mode(NONE) _M_code(0x48 + REG_AL)
+_M_inst(dey) _M_mode(NONE) _M_code(0x58 + REG_BL)
 
 #define INST_MNEMONIC_LEN 4
 static char inst_6502[][INST_MNEMONIC_LEN] = {
