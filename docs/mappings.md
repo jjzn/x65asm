@@ -10,10 +10,10 @@ The following table lists the correspondence between 6502 instructions and their
 | `sta [addr]` | `mov [addr], ax` | **Yes** |
 | `stx [addr]` | `mov [addr], bx` | **Yes** |
 | `sty [addr]` | `mov [addr], cx` | **Yes** |
-| `inc` | `inc ax` | No |
+| `inc` | `inc [addr]` | **Yes** |
 | `inx` | `inc bx` | **Yes** |
 | `iny` | `inc cx` | **Yes** |
-| `dec` | `dec ax` | No |
+| `dec` | `dec [addr]` | **Yes** |
 | `dex` | `dec bx` | **Yes** |
 | `dey` | `dec cx` | **Yes** |
 | `cmp [value]` | `cmp ax, [value]` | No |

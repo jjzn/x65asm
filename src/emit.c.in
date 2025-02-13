@@ -89,6 +89,40 @@ maybe(emit_t) _emit_store(line_t line, uint8_t reg) {
     return some(emit_t, res);
 }
 
+maybe(emit_t) _emit_increment(line_t line, bool decr) {
+	size_t len = 0;
+	uint8_t bin[MAX_BYTES_PER_INST];
+
+	switch (line.arg.type) {
+		case ZP:
+		case ABS:
+			len = 4;
+
+			bin[0] = 0xFE;
+			bin[1] = 0x06 + (decr << 3); /* ModR/M 00 00X 110 */
+			bin[2] = (uint8_t) line.arg.as_16; /* little_endian encoding */
+			bin[3] = (uint8_t) (line.arg.as_16 >> 8);
+			break;
+
+		case IDX_X:
+			len = 4;
+
+			bin[0] = 0xFE;
+			bin[1] = 0x87 + (decr << 3); /* ModR/M 10 00X 111 */
+			bin[2] = (uint8_t) line.arg.as_16; /* little-endian encoding */
+			bin[3] = (uint8_t) (line.arg.as_16 >> 8);
+			break;
+
+		default:
+			return none(emit_t);
+	}
+
+	emit_t res = { CODE, len, {0} };
+	memcpy(res.value, bin, len);
+
+	return some(emit_t, res);
+}
+
 _M_inst(lda) _M_mode(IMM, ZP, ABS) _M_return(_emit_load(line, REG_AL))
 _M_inst(ldx) _M_mode(IMM, ZP, ABS) _M_return(_emit_load(line, REG_BL))
 _M_inst(ldy) _M_mode(IMM, ZP, ABS) _M_return(_emit_load(line, REG_CL))
@@ -97,9 +131,11 @@ _M_inst(sta) _M_mode(ZP, ABS) _M_return(_emit_store(line, REG_AL))
 _M_inst(stx) _M_mode(ZP, ABS) _M_return(_emit_store(line, REG_BL))
 _M_inst(sty) _M_mode(ZP, ABS) _M_return(_emit_store(line, REG_CL))
 
+_M_inst(inc) _M_mode(ZP, ABS, IDX_X) _M_return(_emit_increment(line, false))
 _M_inst(inx) _M_mode(NONE) _M_code(0x40 + REG_BL)
 _M_inst(iny) _M_mode(NONE) _M_code(0x40 + REG_CL)
 
+_M_inst(dec) _M_mode(ZP, ABS, IDX_X) _M_return(_emit_increment(line, true))
 _M_inst(dex) _M_mode(NONE) _M_code(0x48 + REG_BL)
 _M_inst(dey) _M_mode(NONE) _M_code(0x58 + REG_CL)
 
@@ -107,8 +143,8 @@ _M_inst(dey) _M_mode(NONE) _M_code(0x58 + REG_CL)
 static char inst_6502[][INST_MNEMONIC_LEN] = {
     "lda", "ldx", "ldy",
     "sta", "stx", "sty",
-           "inx", "iny",
-           "dex", "dey" /* TODO: implement INC and DEC */
+    "inc", "inx", "iny",
+    "dec", "dex", "dey"
 };
 
 static emitter inst_x86[] = {
