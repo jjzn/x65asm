@@ -18,7 +18,6 @@ dnl
 #include "defs.h"
 #include "maybe.h"
 #include "table.h"
-#include "encoding.h"
 
 #define allow_args(line, ...) \
     arg_type_t _allowed_args[] = { __VA_ARGS__ }; \
@@ -98,11 +97,11 @@ _M_inst(sta) _M_mode(ZP, ABS) _M_return(_emit_store(line, REG_AL))
 _M_inst(stx) _M_mode(ZP, ABS) _M_return(_emit_store(line, REG_BL))
 _M_inst(sty) _M_mode(ZP, ABS) _M_return(_emit_store(line, REG_CL))
 
-_M_inst(inx) _M_mode(NONE) _M_code(0x40 + REG_AL)
-_M_inst(iny) _M_mode(NONE) _M_code(0x40 + REG_BL)
+_M_inst(inx) _M_mode(NONE) _M_code(0x40 + REG_BL)
+_M_inst(iny) _M_mode(NONE) _M_code(0x40 + REG_CL)
 
-_M_inst(dex) _M_mode(NONE) _M_code(0x48 + REG_AL)
-_M_inst(dey) _M_mode(NONE) _M_code(0x58 + REG_BL)
+_M_inst(dex) _M_mode(NONE) _M_code(0x48 + REG_BL)
+_M_inst(dey) _M_mode(NONE) _M_code(0x58 + REG_CL)
 
 #define INST_MNEMONIC_LEN 4
 static char inst_6502[][INST_MNEMONIC_LEN] = {
