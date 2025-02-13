@@ -53,16 +53,17 @@ int main(int argc, char** argv) {
 
     char buff[1024];
     while (fgets(buff, sizeof(buff), in) != NULL) {
-        debug("%s", buff);
         line_t line = parse(buff);
-        debug("\t\t%s (= %d)\n", arg_names[line.arg.type], line.arg.as_16);
+
+        if (buff[0] != '\0' && buff[1] != '\0')
+            debug("\033[2m%s\033[0m\t%s (arg = %d)\n", buff, arg_names[line.arg.type], line.arg.as_16);
 
         if (line.type == INST) {
             maybe(emit_t) res = emit(line);
             if (res.ok) {
-                debug("%lu values:\n", res.val.len);
+                debug("\t\t%lu values:\n", res.val.len);
                 for (size_t i = 0; i < res.val.len; i++)
-                    debug("emit\t%x\n", res.val.value[i]);
+                    debug("\t\temit\t%x\n", res.val.value[i]);
             }
         }
 

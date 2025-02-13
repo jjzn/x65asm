@@ -6,7 +6,7 @@
 
 #ifdef DEBUG
     #define debug(...) do { \
-        fputs("DEBUG: ", stderr); fprintf(stderr, __VA_ARGS__); \
+        fputs("\033[2mDEBUG:\033[0m ", stderr); fprintf(stderr, __VA_ARGS__); \
     } while(0)
 #else
     #define debug(...) {}
