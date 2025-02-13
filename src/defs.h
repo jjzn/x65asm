@@ -9,7 +9,7 @@
         fputs("DEBUG: ", stderr); fprintf(stderr, __VA_ARGS__); \
     } while(0)
 #else
-    #define debug(...)
+    #define debug(...) {}
 #endif /* DEBUG */
 
 extern void _macro_expand_panic(const char*, const char*, int, char*, ...);
@@ -17,7 +17,15 @@ extern void _macro_expand_panic(const char*, const char*, int, char*, ...);
 
 #define MAX_BYTES_PER_INST 4
 
+/* REGISTER ENCODINGS FOR X86 */
+#define REG_AL 0x00 /* 0b00 */
+#define REG_BL 0x03 /* 0b11 */
+#define REG_CL 0x01 /* 0b01 */
+#define REG_DL 0x02 /* 0b10 */
+
 /* 6502 addressing modes
+ *
+ * NONE, ACCumulator, IMMediate, Zero Page, ABSolute
  *
  * IDX - indexed, adds the contents of the X/Y register
  * IND - indirect, references the value stored at the pointed memory location
